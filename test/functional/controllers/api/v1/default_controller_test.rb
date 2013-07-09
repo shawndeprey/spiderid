@@ -12,7 +12,7 @@ class Api::V1::DefaultControllerTest < ActionController::TestCase
   	json.has_key?("app_name").must_equal true
     json.has_key?("total_families").must_equal true
     json.has_key?("total_genus").must_equal true
-    json.has_key?("total_arachnids").must_equal true
+    json.has_key?("total_species").must_equal true
   end
 
 end
