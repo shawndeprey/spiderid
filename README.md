@@ -79,7 +79,7 @@ You may need to access the web application from outside of the VM.
 You can do so by accessing the VM's manually assigned IP address, and
 the port of the application.
 
-    30.30.30.11:5000
+    69.69.69.69:3000
 
 ## Dependency Changes
 
