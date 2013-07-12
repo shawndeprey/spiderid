@@ -20,7 +20,7 @@ class CreateBaseModels < ActiveRecord::Migration
       t.string :permalink
       t.text :description
       t.boolean :venomous
-      t.text :attributes
+      t.text :characteristics
       t.text :image_url
       t.timestamps
     end
