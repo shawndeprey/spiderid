@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(version: 20130709065518) do
     t.string   "permalink"
     t.text     "description"
     t.boolean  "venomous"
-    t.text     "attributes"
+    t.text     "characteristics"
     t.text     "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
