@@ -22,10 +22,10 @@ module BuildHelper
 
   def self.pull_species_scientific_names
     Genera.where("id >= 0").find_in_batches do |genus|
-      #genus.each do |genera|
-      #  SpeciesWorker.perform_async(genera.name)
-      #end
-      SpeciesWorker.perform_async(genus.first.name)
+      BuildHelper::say "Queuing generas up to \e[36m#{genus.last.id}/#{Genera.count}\e[0m..."
+      genus.each do |genera|
+        SpeciesWorker.perform_async(genera.name)
+      end
     end
   end
 
