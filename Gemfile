@@ -14,6 +14,9 @@ gem 'thin', '~> 1.5.1'
 gem 'newrelic_rpm', '~> 3.6.5.130'
 gem 'nilify_blanks', '~> 1.0.1'
 
+# Multithreading Application Server
+gem 'unicorn', '~> 4.6.3'
+
 # Gems used only for assets and not required in production environments by default.
 group :assets do
   gem 'sass-rails', '~> 4.0.0'
@@ -28,7 +31,6 @@ group :development, :test do
 end
 
 # Gems we will use in time
-#gem 'unicorn'
 #gem 'turbolinks'
 
 # Gems for Sidekiq
