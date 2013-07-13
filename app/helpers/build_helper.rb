@@ -22,10 +22,9 @@ module BuildHelper
 
   def self.pull_species_scientific_names
     Genera.where("id >= 0").find_in_batches do |genus|
+      BuildHelper::say "Queuing generas up to \e[36m#{genus.last.id}/#{Genera.count}\e[0m..."
       genus.each do |genera|
-        html = Net::HTTP.get URI("#{ApplicationHelper::SPECIES}?genus=#{genera.name}")
-        BuildHelper::build_species_scientific_names(genera, html) unless html.blank?
-        BuildHelper::say "Resource at #{ApplicationHelper::SPECIES}?genus=#{genera.name} returned null" if html.blank?
+        SpeciesWorker.perform_async(genera.name)
       end
     end
   end
@@ -66,31 +65,34 @@ module BuildHelper
     BuildHelper::say "Finished building Families and Genus"
   end
 
-  def self.build_species_scientific_names(genera, html)
+  def self.build_species_scientific_names(genera_name, html)
     # This function builds out all of the species for a particular genera
     # First we must build our species match based on our source data layous
-    matches = html.scan(/<li>species: .+<em>#{genera.name} (.+)<\/em>/i)
-    BuildHelper::say "Building species for the \e[36m#{genera.name}\e[0m genera..."
+    genera = Genera.find_by_name(genera_name)
+    unless genera.blank?
+      matches = html.scan(/<li>species: .+<em>#{genera.name} (.+)<\/em>/i)
+      BuildHelper::say "Building species for the \e[36m#{genera.name}\e[0m genera..."
 
-    # Next we cycle through our matches, only dealing with those that aren't blank
-    matches.each do |scientific_species_name|
-      if scientific_species_name.length > 0 && !scientific_species_name[0].blank?
-        # If we have a good match, then either add or update it
-        species = Species.find_by_scientific_name(scientific_species_name[0]) || Species.new
+      # Next we cycle through our matches, only dealing with those that aren't blank
+      matches.each do |scientific_species_name|
+        if scientific_species_name.length > 0 && !scientific_species_name[0].blank?
+          # If we have a good match, then either add or update it
+          species = Species.find_by_scientific_name(scientific_species_name[0]) || Species.new
 
-        # Add our source data to our model
-        species.scientific_name = scientific_species_name[0]
+          # Add our source data to our model
+          species.scientific_name = scientific_species_name[0]
 
-        # Next, we add the species to the genera and family to species
-        species.family = genera.family
-        genera.species << species
+          # Next, we add the species to the genera and family to species
+          species.family = genera.family
+          genera.species << species
 
-        # Finally, we save our genera and species models
-        species.save
-        species.family.save
-        genera.save
-      end
-    end unless matches.blank?
+          # Finally, we save our genera and species models
+          species.save
+          species.family.save
+          genera.save
+        end
+      end unless matches.blank?
+    end
   end
 
   def self.say(text)
