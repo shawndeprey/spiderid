@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130709065518) do
+ActiveRecord::Schema.define(version: 20130713191220) do
 
   create_table "families", force: true do |t|
     t.string   "name"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20130709065518) do
     t.datetime "updated_at"
   end
 
+  add_index "families", ["name"], name: "index_families_on_name", using: :btree
+
   create_table "generas", force: true do |t|
     t.string   "name"
     t.integer  "total_species"
@@ -28,6 +30,9 @@ ActiveRecord::Schema.define(version: 20130709065518) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "generas", ["family_id"], name: "index_generas_on_family_id", using: :btree
+  add_index "generas", ["name"], name: "index_generas_on_name", using: :btree
 
   create_table "species", force: true do |t|
     t.integer  "family_id"
@@ -42,5 +47,9 @@ ActiveRecord::Schema.define(version: 20130709065518) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "species", ["family_id"], name: "index_species_on_family_id", using: :btree
+  add_index "species", ["genera_id"], name: "index_species_on_genera_id", using: :btree
+  add_index "species", ["scientific_name"], name: "index_species_on_scientific_name", using: :btree
 
 end
