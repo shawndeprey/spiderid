@@ -17,6 +17,12 @@ gem 'nilify_blanks', '~> 1.0.1'
 # Multithreading Application Server
 gem 'unicorn', '~> 4.6.3'
 
+# ASynchronous Background Tasks
+gem 'sidekiq', '~> 2.13.0'
+gem 'ruby-progressbar', '~> 1.1.1'
+gem 'slim', '~> 2.0.0' # For sidekiq web ui
+gem 'sinatra', '~> 1.4.3', :require => nil # if you require 'sinatra' you get the DSL extended to Object
+
 # Gems used only for assets and not required in production environments by default.
 group :assets do
   gem 'sass-rails', '~> 4.0.0'
@@ -32,13 +38,6 @@ end
 
 # Gems we will use in time
 #gem 'turbolinks'
-
-# Gems for Sidekiq
-#gem 'sidekiq'
-# For sidekiq web ui
-#gem 'slim', '>= 1.3.0'
-# if you require 'sinatra' you get the DSL extended to Object
-#gem 'sinatra', '>= 1.3.0', :require => nil
 
 # Gems for ImageMagick, Paperclip and Amazon S3 Services
 #gem 'paperclip', '~> 3.4.2'
