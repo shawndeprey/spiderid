@@ -178,4 +178,33 @@ else
     echo_pretty "Looks like ImageMagick exists. Assuming ImageMagick installation..."
 fi
 
+echo_pretty "Installing Redis..."
+if [ ! -f "/usr/local/bin/redis-server" ]; then
+    echo_pretty "Configuring and installing Redis..."
+    # Install Redis
+    pushd /tmp
+    wget http://redis.googlecode.com/files/redis-2.6.10.tar.gz
+    tar xvzf redis-2.6.10.tar.gz
+    cd redis*
+    make install
+    popd
+    rm -rf redis*
+
+    # Create an upstart script for Redis
+    cat >/etc/init/redis-server.conf <<INIT
+description "redis server"
+
+start on runlevel [23]
+stop on shutdown
+
+exec /usr/local/bin/redis-server --daemonize no
+
+respawn
+INIT
+
+    start redis-server
+else
+    echo_pretty "Looks like Redis exists. Assuming Redis installation..."
+fi
+
 echo_pretty "Provisioning complete!"

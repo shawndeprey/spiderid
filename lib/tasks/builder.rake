@@ -12,8 +12,9 @@ namespace :build do
 
 	  desc "Builds the arachnid database"
 	  task :all => :environment do
-	    BuildHelper::say "Building full spider database from external sources."
-	    BuildHelper::build_spiders
+	  	BuildHelper::say "This command has been removed temporarily. Please run the build in the proper order manually..."
+	    # BuildHelper::say "Building full spider database from external sources."
+	    # BuildHelper::build_spiders
 	  end
 	end
 end
