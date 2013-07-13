@@ -10,7 +10,6 @@ before_fork do |server, worker|
   end
 
   defined?(ActiveRecord::Base) and ActiveRecord::Base.connection.disconnect!
-
 end
 
 after_fork do |server, worker|
@@ -20,8 +19,4 @@ after_fork do |server, worker|
   end
 
   defined?(ActiveRecord::Base) and ActiveRecord::Base.establish_connection
-
-  Sidekiq.configure_client do |config|
-    config.redis = { size: 1, namespace: 'sidekiq' }
-  end
 end
