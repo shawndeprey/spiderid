@@ -5,6 +5,7 @@ Spiderid::Application.routes.draw do
   namespace :api, :constraints => {:format => 'json'} do
     namespace :v1 do
       get '/', to: 'default#index', as: :api_info
+      get '/species/search', to: 'species#search'
     end
   end
   # admin_constraint = lambda { |request| request.env["rack.session"]["user_id"] && User.find(request.env["rack.session"]["user_id"]).admin? }
