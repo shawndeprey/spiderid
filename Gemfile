@@ -13,6 +13,7 @@ gem 'will_paginate', '~> 3.0.4'
 gem 'thin', '~> 1.5.1'
 gem 'newrelic_rpm', '~> 3.6.5.130'
 gem 'nilify_blanks', '~> 1.0.1'
+gem 'active_model_serializers', '~> 0.8.1'
 
 # Multithreading Application Server
 gem 'unicorn', '~> 4.6.3'
