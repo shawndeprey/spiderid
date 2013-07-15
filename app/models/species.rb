@@ -43,8 +43,10 @@ class Species < ActiveRecord::Base
     mapping {
       indexes :id,                  :index => :no
       indexes :scientific_name,     :type => 'string', :boost => 2.0, :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
-      indexes :genera_name,         :type => 'string', :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
-      indexes :family_name,         :type => 'string', :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
+      #indexes :genera_name,         :type => 'string', :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
+      #indexes :family_name,         :type => 'string', :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
+      indexes :genera_name,         :type => 'string', :analyzer => "simple"
+      indexes :family_name,         :type => 'string', :analyzer => "simple"
     }
   end
 
