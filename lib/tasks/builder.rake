@@ -22,9 +22,9 @@ namespace :build do
   task :search_index => :environment do
     puts "Deleting old species index"
     Tire::Index.new('species').delete
-    Tire::Index.new('species').create :mappings => {
-      :species => Species.mapping
-    }
+    #Tire::Index.new('species').create :mappings => {
+    #  :species => Species.mapping
+    #}
 
     puts "Rolling through all Species and indexing them for search on index #{Species.index_name}."
     Tire.index Species.index_name do
