@@ -22,12 +22,13 @@ namespace :build do
   task :search_index => :environment do
     puts "Deleting old species index"
     Tire::Index.new('species').delete
-    #Tire::Index.new('species').create :mappings => {
-    #  :species => Species.mapping
-    #}
+    Tire::Index.new('species').create :mappings => {
+      :species => Species.mapping
+    }
+    puts Species.mapping
 
     puts "Rolling through all Species and indexing them for search on index #{Species.index_name}."
-    Tire.index Species.index_name do
+    Tire.index 'species' do
       Species.where("id >= 0").find_in_batches do |species|
         puts "Importing group, Last Name: #{species.last.scientific_name}, Last ID: #{species.last.id}"
         import species
