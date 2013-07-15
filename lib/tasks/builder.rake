@@ -23,16 +23,12 @@ namespace :build do
     puts "Deleting old species index"
     Tire::Index.new('species').delete
     Tire::Index.new('species').create( { :settings => {
-    		#:species => {:analysis=>{:filter=>{:substring_filter=>{"type"=>"edgeNGram", "side"=>"front", "max_gram"=>20, "min_gram"=>1}}, :analyzer=>{:typeahead_search=>{"tokenizer"=>"standard", "filter"=>["lowercase"]}, :typeahead_index=>{"tokenizer"=>"standard", "filter"=>["substring_filter", "lowercase"], "type"=>"custom"}}}}
     		:species => Species.settings
     	},
     	:mappings => {
-	      #:species => {:id=>{:index=>:no, :type=>"string"}, :scientific_name=>{:type=>"string", :boost=>2.0, :search_analyzer=>"typeahead_search", :index_analyzer=>"typeahead_index"}, :genera_name=>{:type=>"string", :analyzer=>"simple"}, :family_name=>{:type=>"string", :analyzer=>"simple"}}
 	      :species => Species.mapping
 	    }
 	  })
-    #puts Species.mapping_options
-    #puts Species.settings
 
     puts "Rolling through all Species and indexing them for search on index #{Species.index_name}."
     Tire.index 'species' do
