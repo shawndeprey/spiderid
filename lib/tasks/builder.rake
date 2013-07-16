@@ -20,18 +20,19 @@ namespace :build do
 
 	desc "Tell Tire to roll through all Species and index them. Also tell tire to refresh the search index."
   task :search_index => :environment do
-    puts "Deleting old species index"
-    Tire::Index.new('species').delete
-    Tire::Index.new('species').create( { :settings => {
-    		:species => Species.settings
-    	},
-    	:mappings => {
-	      :species => Species.mapping
-	    }
-	  })
-
-    puts "Rolling through all Species and indexing them for search on index #{Species.index_name}."
     Tire.index 'species' do
+    	puts "Deleting old species index"
+    	delete
+    	puts "Rolling through all Species and indexing them for search on index species."
+=begin
+    	create({ :settings => {
+	    		:species => Species.settings
+	    	},
+	    	:mappings => {
+		      :species => Species.mapping
+		    }
+		  })
+=end
       Species.where("id >= 0").find_in_batches do |species|
         puts "Importing group, Last Name: #{species.last.scientific_name}, Last ID: #{species.last.id}"
         import species

@@ -162,9 +162,9 @@ echo_pretty "Installing ElasticSearch..."
 if [ ! -f "/usr/share/elasticsearch/bin/elasticsearch" ]; then
     echo_pretty "Downloading ElasticSearch..."
     pushd /tmp
-    wget --quiet https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.20.6.deb
+    wget --quiet https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-0.90.1.deb
     echo_pretty "Configuring and installing ElasticSearch..."
-    dpkg -i elasticsearch-0.20.6.deb
+    dpkg -i elasticsearch-0.90.1.deb
     rm -rf elasticsearch*
 else
     echo_pretty "Looks like ElasticSearch exists. Assuming ElasticSearch installation..."
