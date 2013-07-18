@@ -20,9 +20,8 @@ namespace :build do
 
 	desc "Tell Tire to roll through all Species and index them. Also tell tire to refresh the search index."
   task :search_index => :environment do
+  	Tire::Index.new('species').delete
     Tire.index 'species' do
-    	puts "Deleting old species index"
-    	delete
     	puts "Rolling through all Species and indexing them for search on index species."
 =begin
     	create({ :settings => {

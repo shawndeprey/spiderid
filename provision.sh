@@ -80,10 +80,10 @@ if [ ! -d "/home/vagrant/.rvm/rubies/default/" ]; then
     # Install RVM
     su -l -c 'curl -L https://get.rvm.io | bash -s stable' vagrant
 
-    echo_pretty "Installing Ruby 1.9.3..."
+    echo_pretty "Installing Ruby 2.0.0..."
     # Install Ruby
-    su -l -c 'rvm install 1.9.3' vagrant
-    su -l -c 'rvm --default use 1.9.3' vagrant
+    su -l -c 'rvm install 2.0.0' vagrant
+    su -l -c 'rvm --default use 2.0.0' vagrant
 
     # Output the Ruby version
     #
