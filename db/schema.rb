@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130713191220) do
+ActiveRecord::Schema.define(version: 20130719044444) do
 
   create_table "families", force: true do |t|
     t.string   "name"
@@ -41,11 +41,16 @@ ActiveRecord::Schema.define(version: 20130713191220) do
     t.string   "common_name"
     t.string   "permalink"
     t.text     "description"
-    t.boolean  "venomous"
+    t.boolean  "dangerous_bite"
     t.text     "characteristics"
     t.text     "image_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "other_names"
+    t.text     "overview"
+    t.text     "bite_effects"
+    t.text     "locations_found"
+    t.string   "adult_size"
   end
 
   add_index "species", ["family_id"], name: "index_species_on_family_id", using: :btree
