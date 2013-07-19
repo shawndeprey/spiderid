@@ -102,7 +102,7 @@ module BuildHelper
             genera = Genera.find_by_name(names[1])
             unless genera.blank?
 
-              # New we build out the species
+              # Now we build out the species
               BuildHelper::attach_species_genera_and_family!(genera, names[2])
               species = Species.find_by_scientific_name("#{genera.name} #{names[2]}")
               unless species.blank?
