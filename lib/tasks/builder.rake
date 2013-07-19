@@ -23,7 +23,7 @@ namespace :build do
   	Tire::Index.new('species').delete
     Tire::Index.new('species') do
     	puts "Rolling through all Species and indexing them for search on index species."
-=begin
+
     	create({ :settings => {
 	    		:species => Species.settings
 	    	},
@@ -31,7 +31,7 @@ namespace :build do
 		      :species => Species.mapping
 		    }
 		  })
-=end
+
       Species.where("id >= 0").find_in_batches do |species|
         puts "Importing group, Last Name: #{species.last.scientific_name}, Last ID: #{species.last.id}"
         import species
