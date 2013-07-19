@@ -1,13 +1,18 @@
 namespace :build do
 	namespace :spider do
-		desc "Builds the arachnid database"
+		desc "Builds arachnid genera and family"
 	  task :genera_and_family => :environment do
 	    BuildHelper::pull_genera_and_family
 	  end
 
-	  desc "Builds the arachnid database"
+	  desc "Builds arachnid scientific species from american history museum"
 	  task :species_scientific_names => :environment do
 	    BuildHelper::pull_species_scientific_names
+	  end
+
+	  desc "Builds arachnid data from insect id"
+	  task :north_america => :environment do
+	    BuildHelper::pull_north_american_species
 	  end
 
 	  desc "Builds the arachnid database"
