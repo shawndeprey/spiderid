@@ -47,10 +47,17 @@ class Species < ActiveRecord::Base
 
   # The improper singular of species was used here to avoid confusing rails
   # attr_accessible :family_id, :genera_id,
-  # :scientific_name, :common_name, :permalink, :description, :venomous, :characteristics, :image_url
+  # :scientific_name, :common_name, :permalink, :description, :characteristics, :other_names, :overview, :locations_found, :adult_size
+  # :dangerous_bite, :image_url, :bite_effects
 
   belongs_to :family
   belongs_to :genera
+
+  before_save :denormalize
+
+  def denormalize
+    self.permalink = self.common_name.downcase.parameterize unless self.common_name.blank?
+  end
 
   def to_indexed_json
     SpeciesSearchSerializer.new(self).to_json(:root => false)

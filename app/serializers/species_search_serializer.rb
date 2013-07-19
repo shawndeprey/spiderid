@@ -1,3 +1,4 @@
 class SpeciesSearchSerializer < ActiveModel::Serializer
-  attributes :id, :family_name, :genera_name, :scientific_name 
+  attributes :id, :permalink, :family_name, :genera_name, :scientific_name, :common_name, :other_names, :description, :overview,
+  :locations_found, :adult_size, :characteristics
 end
