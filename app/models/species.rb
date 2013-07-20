@@ -48,7 +48,7 @@ class Species < ActiveRecord::Base
   # The improper singular of species was used here to avoid confusing rails
   # attr_accessible :family_id, :genera_id,
   # :scientific_name, :common_name, :permalink, :description, :characteristics, :other_names, :overview, :locations_found, :adult_size
-  # :dangerous_bite, :image_url, :bite_effects
+  # :dangerous_bite, :image_url, :bite_effects, :author, :additional_info
 
   belongs_to :family
   belongs_to :genera
