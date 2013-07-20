@@ -1,7 +1,16 @@
 module ApplicationHelper
-	# Our External Sources
-	GENERA_AND_FAMILY 	= "http://research.amnh.org/iz/spiders/catalog/GENERIC.IND.html"
-	SPECIES 						= "http://research.amnh.org/oonopidae/catalog/names.php"
+	# External Resources
+	# American Museum of Natural History
+	GENERA_AND_FAMILY		= "http://research.amnh.org/iz/spiders/catalog/GENERIC.IND.html"
+	SPECIES							= "http://research.amnh.org/oonopidae/catalog/names.php"
+
+	# Insect Identification
 	INSECT_ID						= "http://www.insectidentification.org"
 	NORTH_AMERICAN			= "#{ApplicationHelper::INSECT_ID}/insect-search-results.asp?display=form&search3=Arachnida&Submit=SEARCH&search4="
+
+	# Araneae
+	ARANEAE							= "http://www.araneae.unibe.ch/"
+	ARANEAE_DATA				= "#{ApplicationHelper::ARANEAE}/data"
+	ANAREAE_BUILD_OUTER = 5000
+
 end

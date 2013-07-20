@@ -1,5 +1,6 @@
 # encoding: utf-8
 require 'net/http'
+include ActionView::Helpers::SanitizeHelper
 module BuildHelper
 
 	def self.build_spiders
@@ -11,6 +12,9 @@ module BuildHelper
 
     # Step 3: Build all known spiders from the United States
     BuildHelper::pull_north_american_species
+
+    # Step 4: Build all known spiders from europe
+    BuildHelper::pull_european_species
   end
 
 
@@ -37,6 +41,16 @@ module BuildHelper
       BuildHelper::say "Queuing \e[36m#{state.first}\e[0m for import from insect id..."
       NorthAmericaWorker.perform_async(state.first)
     end
+  end
+
+  def self.pull_european_species
+    BuildHelper::say "Queuing species 0 to #{ApplicationHelper::ANAREAE_BUILD_OUTER} from \e[36mAnareae\e[0m..."
+    #jobs = []
+    #(0..ApplicationHelper::ANAREAE_BUILD_OUTER).each{ |i| jobs << [i] }
+    #Sidekiq::Client.push_bulk('class' => EuropeWorker, 'args' => jobs)
+    html = Net::HTTP.get URI("#{ApplicationHelper::ARANEAE_DATA}/#{34}")
+    BuildHelper::build_european_species(html) unless html.blank?
+    BuildHelper::say "Resource at #{ApplicationHelper::ARANEAE_DATA}/#{34} returned null" if html.blank?
   end
 
 
@@ -97,47 +111,38 @@ module BuildHelper
           names = html.scan(/<h1><span class="textDkBlue">(.+)<\/span>.+<span class="textDkGray">\((.+)\&nbsp\;(.+)\)<\/span><\/h1>/i).first unless html.blank?
           if !names.blank? && !family_name.blank? && names.length == 3 && !names[0].blank? && !names[1].blank? && !names[2].blank? && !family_name[0].blank?
 
-            # Build out genera and family
-            BuildHelper::attach_family_and_genera!(family_name[0], names[1])
-            genera = Genera.find_by_name(names[1])
-            unless genera.blank?
+            # Next we want to build out our family, genera, and species to ensure out models exist
+            genera, species = BuildHelper::build_out_family_genera_and_species!(family_name[0], names[1], names[2])
+            if genera && species
+              # By this point, we can be certain we have the correct species. Lets add a common name to it.
+              BuildHelper::say "Updating Species \e[36m#{species.scientific_name}\e[0m with common name \e[36m#{names[0]}\e[0m."
+              species.common_name = names[0]
 
-              # Now we build out the species
-              BuildHelper::attach_species_genera_and_family!(genera, names[2])
-              species = Species.find_by_scientific_name("#{genera.name} #{names[2]}")
-              unless species.blank?
+              # Build other_names
+              other_names = html.scan(/<span class="textBold">Other Names:<\/span>(.+)<br/i).first
+              species.other_names = other_names[0].gsub(/^\s/, '') unless other_names.blank?
 
-                # By this point, we can be certain we have the correct species. Lets add a common name to it.
-                BuildHelper::say "Updating Species \e[36m#{species.scientific_name}\e[0m with common name \e[36m#{names[0]}\e[0m."
-                species.common_name = names[0]
+              # Build locations_found
+              locations_found = html.scan(/<p><span class="textBold">North American Reach.+:<\/span>(.+)<\/p>/i).first
+              species.locations_found = BuildHelper::merge_csv_lists(species.locations_found, locations_found[0].gsub(/^\s/, '').gsub(/\;/, ',')) unless locations_found.blank?
 
-                # Build other_names
-                other_names = html.scan(/<span class="textBold">Other Names:<\/span>(.+)<br/i).first
-                species.other_names = other_names[0].gsub(/^\s/, '') unless other_names.blank?
+              # Build adult_size
+              adult_size = html.scan(/<span class="textBold">Adult Size.+:<\/span>.+\n(.+)\n(.+)<span/i).first
+              species.adult_size = "#{adult_size[0]} #{adult_size[1]}".gsub(/^\s|^\s\s|\s$/i, '') unless adult_size.blank?
 
-                # Build locations_found
-                locations_found = html.scan(/<p><span class="textBold">North American Reach.+:<\/span>(.+)<\/p>/i).first
-                species.locations_found = locations_found[0].gsub(/^\s/, '').gsub(/\;/, ',') unless locations_found.blank?
+              # Build characteristics
+              characteristics = html.scan(/<p><span class="textBold">Identifying Colors:<\/span>(.+)<\/p>/i).first
+              species.characteristics = BuildHelper::merge_csv_lists(species.characteristics, characteristics[0].gsub(/^\s/, '').gsub(/\;/, ',')) unless characteristics.blank?
 
-                # Build adult_size
-                adult_size = html.scan(/<span class="textBold">Adult Size.+:<\/span>.+\n(.+)\n(.+)<span/i).first
-                species.adult_size = "#{adult_size[0]} #{adult_size[1]}".gsub(/^\s|^\s\s|\s$/i, '') unless adult_size.blank?
+              # Build description
+              description = html.scan(/<p><span class="textBold">General Description:<\/span>(.+)<\/p>/i).first
+              species.description = description[0].gsub(/^\s/, '') unless description.blank?
 
-                # Build characteristics
-                characteristics = html.scan(/<p><span class="textBold">Identifying Colors:<\/span>(.+)<\/p>/i).first
-                species.characteristics = BuildHelper::merge_csv_lists(species.characteristics, characteristics[0].gsub(/^\s/, '').gsub(/\;/, ',')) unless characteristics.blank?
+              # Build overview
+              overview = html.scan(/<span class="textDkGray textMedium1"><p>([A-Za-z0-9\s\.\,\<\>\:\'\"\?\[\]\{\}\!\~\`\!\@\#\$\%\^\&\*\(\)\-\_\=\+\;]+)<\/p>/im).first
+              species.overview = overview[0].gsub(/^\s|\r|\n|\t|[\s]+$/, '').gsub(/<br>/i, "\n") unless overview.blank?
 
-                # Build description
-                description = html.scan(/<p><span class="textBold">General Description:<\/span>(.+)<\/p>/i).first
-                species.description = description[0].gsub(/^\s/, '') unless description.blank?
-
-                # Build overview
-                overview = html.scan(/<span class="textDkGray textMedium1"><p>([A-Za-z0-9\s\.\,\<\>\:\'\"\?\[\]\{\}\!\~\`\!\@\#\$\%\^\&\*\(\)\-\_\=\+\;]+)<\/p>/im).first
-                species.overview = overview[0].gsub(/^\s|\r|\n|\t|[\s]+$/, '').gsub(/<br>/i, "\n") unless overview.blank?
-
-                species.save
-
-              end
+              species.save
             end
           end
         end
@@ -147,9 +152,61 @@ module BuildHelper
     end
   end
 
+  def self.build_european_species(html)
+    # Grab Genera Name, Species Name, Author and Family from the source
+    names  = html.scan(/<b><i>(.+)\s(.+)<\/i>.\((.+)\)<\/b>/i).first
+    family_name = html.scan(/<a href="\/list\/genspec\/taxId\/.+\/(.+)">/i).first
+    if !names.blank? && !family_name.blank? && names.length > 1 && !names[0].blank? && !names[1].blank? && family_name.length == 1
+      BuildHelper::say "Building European species \e[36m#{names[0]} #{names[1]}\e[0m"
+
+      # Next we want to build out our family, genera, and species to ensure out models exist
+      genera, species = BuildHelper::build_out_family_genera_and_species!(family_name[0], names[0], names[1])
+      if genera && species
+
+        # Now we add specific attributes to our species model.
+        species.author = names[2] unless names[2].blank?
+
+        # Build description & adult_size
+        if !html.scan(/Description male/i).blank?
+          description_size = html.scan(/<b>Description male.+<\/b><\/div>.[\s]+<p>(.+)<\/p>.+<p>.(.+)<\/p>.[\s]+<div class="title"><b>Description female<\/b><\/div>.[\s]+<p>(.+)<\/p><p>(.+)<\/p><div class="title">/im).first
+          species.description = "Male:\n#{description_size[0].strip}\nFemale:\n#{description_size[2].strip}".strip unless description_size.blank?
+          species.adult_size = "#{description_size[1].strip}, #{description_size[3].strip}".strip unless description_size.blank?
+        else
+          description = html.scan(/<b>Description.+<\/b><\/div>.[\s]+(.+)<p>/im).first
+          species.description = description[0].gsub(/<p>|<\/p>|<b>|<\/b><div>|<\/div>|<div class="title">/i, '').strip unless description.blank?
+          adult_size = html.scan(/(Body length male: .+, Body length female: .+)<\/p>/i).first
+          species.adult_size = adult_size[0].strip unless adult_size.blank?
+        end
+
+        # Build locations_found
+        locations_found = html.scan(/<b>Global distribution<\/b> \(.+\)\: (.+)<p/i).first
+        species.locations_found = BuildHelper::merge_csv_lists(species.locations_found, locations_found[0].gsub(/\sto|\sthrough/i, ',').gsub(/\(.+\)/i, '').strip) unless locations_found.blank?
+
+        # Build additional_info
+        additional_info = html.scan(/<b>Additional Information<\/b><\/div>(.+)<br/i).first
+        species.additional_info = additional_info[0].gsub(/<p>|<\/p>/i, '').strip unless additional_info.blank?
+
+        species.save
+      end
+    end
+  end
+
 
 
   # General Use Functions
+  def self.build_out_family_genera_and_species!(family_name, genera_name, species_name)
+    # Build out genera and family
+    BuildHelper::attach_family_and_genera!(family_name, genera_name)
+    genera = Genera.find_by_name(genera_name)
+    unless genera.blank?
+      # Now we build out the species
+      BuildHelper::attach_species_genera_and_family!(genera, species_name)
+      species = Species.find_by_scientific_name("#{genera.name} #{species_name}")
+      return genera, species unless species.blank?
+    end
+    return nil
+  end
+
   def self.attach_species_genera_and_family!(genera, species_name)
     species = Species.find_by_scientific_name("#{genera.name} #{species_name}") || Species.new(:scientific_name => "#{genera.name} #{species_name}")
     # By this function we assume genera already has a family
