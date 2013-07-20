@@ -45,12 +45,9 @@ module BuildHelper
 
   def self.pull_european_species
     BuildHelper::say "Queuing species 0 to #{ApplicationHelper::ANAREAE_BUILD_OUTER} from \e[36mAnareae\e[0m..."
-    #jobs = []
-    #(0..ApplicationHelper::ANAREAE_BUILD_OUTER).each{ |i| jobs << [i] }
-    #Sidekiq::Client.push_bulk('class' => EuropeWorker, 'args' => jobs)
-    html = Net::HTTP.get URI("#{ApplicationHelper::ARANEAE_DATA}/#{34}")
-    BuildHelper::build_european_species(html) unless html.blank?
-    BuildHelper::say "Resource at #{ApplicationHelper::ARANEAE_DATA}/#{34} returned null" if html.blank?
+    jobs = []
+    (0..ApplicationHelper::ANAREAE_BUILD_OUTER).each{ |i| jobs << [i] }
+    Sidekiq::Client.push_bulk('class' => EuropeWorker, 'args' => jobs)
   end
 
 
