@@ -15,6 +15,11 @@ namespace :build do
 	    BuildHelper::pull_north_american_species
 	  end
 
+	  desc "Builds arachnid data from insect id"
+	  task :europe => :environment do
+	    BuildHelper::pull_european_species
+	  end
+
 	  desc "Builds the arachnid database"
 	  task :all => :environment do
 	  	BuildHelper::say "This command has been removed temporarily. Please run the build in the proper order manually..."

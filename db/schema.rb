@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130719044444) do
+ActiveRecord::Schema.define(version: 20130720200505) do
 
   create_table "families", force: true do |t|
     t.string   "name"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 20130719044444) do
     t.text     "bite_effects"
     t.text     "locations_found"
     t.string   "adult_size"
+    t.string   "author"
+    t.text     "additional_info"
   end
 
   add_index "species", ["family_id"], name: "index_species_on_family_id", using: :btree
