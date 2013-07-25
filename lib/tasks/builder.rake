@@ -28,6 +28,13 @@ namespace :build do
 	  end
 	end
 
+	task :delete_index => :environment do
+  	BuildHelper::say "Deleting species index..."
+  	Tire::Index.new(Species.index_name).delete 
+  end
+  # Create Index With
+  # rake environment tire:import:model CLASS='Species'
+
 =begin
     	create({ :settings => {
 	    		:species => Species.settings
@@ -37,8 +44,12 @@ namespace :build do
 		    }
 		  })
 =end
+=begin
 	desc "Tell Tire to roll through all Species and index them. Also tell tire to refresh the search index."
   task :search_index => :environment do
+  	BuildHelper::say "Deleting species index..."
+  	Tire::Index.new(Species.index_name).delete 
+
     Tire.index Species.index_name do
     	puts "Deleting old species index..."
     	delete
@@ -49,5 +60,8 @@ namespace :build do
       end
       refresh
     end
+
   end
+=end
+
 end

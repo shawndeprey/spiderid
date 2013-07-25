@@ -4,7 +4,6 @@ class Species < ActiveRecord::Base
   nilify_blanks
   after_touch() { tire.update_index }
 
-=begin
   settings :analysis => {
              :filter => {
                :substring_filter  => {
@@ -36,14 +35,22 @@ class Species < ActiveRecord::Base
            } do
     mapping {
       indexes :id,                  :index => :no
-      indexes :scientific_name,     :type => 'string', :boost => 2.0, :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
-      #indexes :genera_name,         :type => 'string', :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
-      #indexes :family_name,         :type => 'string', :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
+      indexes :permalink,           :index => :no
+      indexes :characteristics,     :type => 'string', :boost => 4.0, :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
+      indexes :description,         :type => 'string', :boost => 4.0, :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
+      indexes :common_name,         :type => 'string', :boost => 2.0, :search_analyzer => "typeahead_search", :index_analyzer => "typeahead_index"
+      indexes :scientific_name,     :type => 'string', :analyzer => "simple"
       indexes :genera_name,         :type => 'string', :analyzer => "simple"
       indexes :family_name,         :type => 'string', :analyzer => "simple"
+      indexes :other_names,         :type => 'string', :analyzer => "simple"
+      indexes :overview,            :type => 'string', :analyzer => "simple"
+      indexes :locations_found,     :type => 'string', :analyzer => "simple"
+      indexes :additional_info,     :index => :no
+      indexes :adult_size,          :index => :no
+      indexes :author,              :index => :no
     }
   end
-=end
+
 
   # The improper singular of species was used here to avoid confusing rails
   # attr_accessible :family_id, :genera_id,
@@ -75,11 +82,14 @@ class Species < ActiveRecord::Base
   	self.family.blank? ? nil : self.family.name
   end
 
-  def self.search_by(term, page)
+  def self.search(term, page)
+    return [] if term.blank?
     tire.search page: page, per_page: 50 do
       query do
-      	# match [:scientific_name, :genera_name, :family_name], term
-        string "#{term}*" unless term.blank?
+        match [:characteristics, :description, :common_name, :scientific_name, :genera_name, :family_name,
+          :other_names, :overview, :locations_found], term
+        # string "#{term}*" unless term.blank?
+        # string term unless term.blank?
       end
     end
   end
