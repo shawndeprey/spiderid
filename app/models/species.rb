@@ -3,7 +3,7 @@ class Species < ActiveRecord::Base
   include Tire::Model::Callbacks
   nilify_blanks
   after_touch() { tire.update_index }
-
+=begin
   settings :analysis => {
              :filter => {
                :substring_filter  => {
@@ -50,6 +50,23 @@ class Species < ActiveRecord::Base
       indexes :author,              :index => :no
     }
   end
+=end
+  mapping do
+    indexes :id,                  :index => :no
+    indexes :permalink,           :index => :no
+    indexes :characteristics,     :type => 'string', :boost => 4.0, :analyzer => "standard"
+    indexes :description,         :type => 'string', :boost => 4.0, :analyzer => "standard"
+    indexes :common_name,         :type => 'string', :boost => 2.0, :analyzer => "standard"
+    indexes :scientific_name,     :type => 'string', :analyzer => "simple"
+    indexes :genera_name,         :type => 'string', :analyzer => "simple"
+    indexes :family_name,         :type => 'string', :analyzer => "simple"
+    indexes :other_names,         :type => 'string', :analyzer => "simple"
+    indexes :overview,            :type => 'string', :analyzer => "simple"
+    indexes :locations_found,     :type => 'string', :analyzer => "simple"
+    indexes :additional_info,     :index => :no
+    indexes :adult_size,          :index => :no
+    indexes :author,              :index => :no
+  end
 
 
   # The improper singular of species was used here to avoid confusing rails
@@ -84,12 +101,10 @@ class Species < ActiveRecord::Base
 
   def self.search(term, page)
     return [] if term.blank?
-    tire.search page: page, per_page: 50 do
+    tire.search page: page, per_page: 20 do
       query do
         match [:characteristics, :description, :common_name, :scientific_name, :genera_name, :family_name,
           :other_names, :overview, :locations_found], term
-        # string "#{term}*" unless term.blank?
-        # string term unless term.blank?
       end
     end
   end
