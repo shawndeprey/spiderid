@@ -26,6 +26,10 @@ gem 'ruby-progressbar', '~> 1.1.1'
 gem 'slim', '~> 2.0.0' # For sidekiq web ui
 gem 'sinatra', '~> 1.4.3', :require => nil # if you require 'sinatra' you get the DSL extended to Object
 
+# Twitter Bootstrap
+gem 'bootstrap-sass', '~> 2.3.2.1'
+gem 'simple_form', '>= 3.0.0.rc'
+
 # Gems used only for assets and not required in production environments by default.
 group :assets do
   gem 'sass-rails', '~> 4.0.0'
