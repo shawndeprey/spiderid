@@ -30,7 +30,7 @@ namespace :build do
 
 	task :delete_index => :environment do
   	BuildHelper::say "Deleting species index..."
-  	Tire::Index.new(Species.index_name).delete 
+  	Tire::Index.new(Species.index_name).delete
   end
   # Create Index With
   # rake environment tire:import:model CLASS='Species'
