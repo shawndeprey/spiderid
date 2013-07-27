@@ -22,6 +22,9 @@ module ApplicationHelper
 	ARANEAE_DATA				= "#{ApplicationHelper::ARANEAE}/data"
 	ANAREAE_BUILD_OUTER = 5000
 
+	# General Helpers
+	LOGO = "/images/template/spider-id-logo.png"
+
 	def display_base_errors resource
     return '' if (resource.errors.empty?) or (resource.errors[:base].empty?)
     messages = resource.errors[:base].map { |msg| content_tag(:p, msg) }.join

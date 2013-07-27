@@ -1,5 +1,6 @@
 <%= link_to "Spider ID", root_path, :class => 'brand' %>
-<ul class="nav">
+<ul class="nav pull-right">
+  <%= image_tag ApplicationHelper::LOGO, :class => 'logo' %>
 <%
 =begin %>
   <% if user_signed_in? %>
