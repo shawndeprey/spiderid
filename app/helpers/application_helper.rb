@@ -23,7 +23,7 @@ module ApplicationHelper
 	ANAREAE_BUILD_OUTER = 5000
 
 	# General Helpers
-	LOGO = "/images/template/spider-id-logo.png"
+	LOGO = "/images/spider-id-logo.png"
 
 	def display_base_errors resource
     return '' if (resource.errors.empty?) or (resource.errors[:base].empty?)
