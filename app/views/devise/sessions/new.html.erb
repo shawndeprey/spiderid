@@ -1,0 +1,22 @@
+<div class="row" id="search">
+  <div class="span6 offset3">
+    <h2>Sign in to Spider ID</h2>
+
+    <%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f| %>
+	    <table class="form_table">
+			  <tr>
+			    <td><%= f.input :email, :required => false, :autofocus => true %></td>
+			    <td><%= f.input :password, :required => false %></td>
+			  </tr>
+			  <tr>
+			    <td><%= f.button :submit, "Sign in" %></td>
+			    <td><%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %></td>
+			  </tr>
+			  <tr>
+			  	<td colspan="2"><%= render "devise/shared/links" %></td>
+			  </tr>
+			</table>
+		<% end %>
+		
+  </div>
+</div>

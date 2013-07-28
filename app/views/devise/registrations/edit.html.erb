@@ -1,0 +1,35 @@
+<div class="row" id="search">
+  <div class="span6 offset3">
+    <h2>Edit <%= resource_name.to_s.humanize %></h2>
+
+    <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put }) do |f| %>
+      <%= f.error_notification %>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p>Currently waiting confirmation for: <%= resource.unconfirmed_email %></p>
+      <% end %>
+
+      <table class="form_table">
+        <tr>
+          <td><%= f.input :first_name, :required => true, :autofocus => true %></td>
+          <td><%= f.input :last_name %></td>
+        </tr>
+        <tr>
+          <td><%= f.input :email, :required => true %></td>
+          <td><%= f.input :title %></td>
+        </tr>
+        <tr>
+          <td><%= f.input :password, :autocomplete => "off", :hint => "leave blank to not change it", :required => false %></td>
+          <td><%= f.input :password_confirmation, :required => false %></td>
+        </tr>
+        <tr>
+          <td><%= f.input :current_password, :hint => "needed to confirm changes", :required => true %></td>
+          <td><%= link_to "Cancel", :back %></td>
+        </tr>
+        <tr>
+          <td colspan="2"><%= f.button :submit, "Update" %></td>
+        </tr>
+      </table>
+    <% end %>
+  </div>
+</div>
