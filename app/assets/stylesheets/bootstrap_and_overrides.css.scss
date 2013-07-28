@@ -18,7 +18,9 @@ body.v1 {
 	}
 
 	div.content {
-
+		div#result_meta {
+			span.loading { display:none; }
+		}
 		div#how_to_search {
 			padding-bottom: 15px;
 			button { margin: 5px 12px 0px 0px; float: right; }
