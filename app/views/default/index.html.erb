@@ -1,3 +1,4 @@
+<!--
 <h2>Welcome to Spider ID!</h2>
 <br>
 <p>
@@ -7,5 +8,109 @@
 </p>
 <br>
 <p>
-	Check out our <a href="<%= api_v1_api_info_url %>.json">API</a>!
+	Check out our <a href="<%#= api_v1_api_info_url %>.json">API</a>!
 </p>
+-->
+
+<div class="row" id="how_to_search" <%unless @how_to_search%>style="display:none;"<%end%>>
+  <div class="span8 offset2" >
+  	<div class="row">
+  		<div class="span8">
+  			<h3>How to use Spider ID
+					<button type="button" class="btn btn-default navbar-btn" onclick="javascript:spider.toggleElement('#how_to_search');">Hide</button>
+  			</h3>
+  		</div>
+  	</div>
+  	<div class="row">
+  		<div class="span8">
+		  	<p>
+		  		To search for an arachnid, just start typing attributes you know about it. For instance, if you live in 
+		  		Colorado USA and see a brown spider with white stripes, you could type something like <strong>"colorado 
+		  		brown white stripes."</strong> Spider ID will spin up the best results for your search. It's that simple!
+		  	</p>
+		  	<p>
+		  		Please do keep in mind that Spider ID is currently in Beta. If you see any issues please send them along to shawndeprey@gmail.com. Thank you, and, I hope this app helps people to identify arachnids quickly and easily!
+		  	</p>
+	  	</div>
+	  </div>
+  </div>
+</div>
+
+<div class="row" id="search">
+  <div class="span6 offset3">
+  	<center><h3>Arachnid Search</h3></center>
+    <input type="text" class="form-control" id="search_bar" placeholder="Arachnid Search">
+  </div>
+</div>
+
+<div class="row" id="results">
+  <div class="span12">
+  	<div class="row">
+
+	  	<div class="span6 card">
+	  		<div class="left">
+	  			<h4>Spider Name: Common OR Scientific</h4>
+	  			<span class="scientific_name">Scientific Name</span><br>
+	  			<span class="characteristics"><strong>Characteristics:</strong> black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray </span>
+	  		</div>
+		  	<%= image_tag ApplicationHelper::LOGO %>
+	  	</div>
+
+	  	<div class="span6 card">
+	  		<div class="left">
+	  			<h4>Spider Name: Common OR Scientific</h4>
+	  			<span class="scientific_name">Scientific Name</span><br>
+	  			<span class="characteristics"><strong>Characteristics:</strong> black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray </span>
+	  		</div>
+		  	<%= image_tag ApplicationHelper::LOGO %>
+	  	</div>
+
+	  	<div class="span6 card">
+	  		<div class="left">
+	  			<h4>Spider Name: Common OR Scientific</h4>
+	  			<span class="scientific_name">Scientific Name</span><br>
+	  			<span class="characteristics"><strong>Characteristics:</strong> black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray </span>
+	  		</div>
+		  	<%= image_tag ApplicationHelper::LOGO %>
+	  	</div>
+
+	  	<div class="span6 card">
+	  		<div class="left">
+	  			<h4>Spider Name: Common OR Scientific</h4>
+	  			<span class="scientific_name">Scientific Name</span><br>
+	  			<span class="characteristics"><strong>Characteristics:</strong> black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray </span>
+	  		</div>
+		  	<%= image_tag ApplicationHelper::LOGO %>
+	  	</div>
+
+	  	<div class="span6 card">
+	  		<div class="left">
+	  			<h4>Spider Name: Common OR Scientific</h4>
+	  			<span class="scientific_name">Scientific Name</span><br>
+	  			<span class="characteristics"><strong>Characteristics:</strong> black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray </span>
+	  		</div>
+		  	<%= image_tag ApplicationHelper::LOGO %>
+	  	</div>
+
+	  	<div class="span6 card">
+	  		<div class="left">
+	  			<h4>Spider Name: Common OR Scientific</h4>
+	  			<span class="scientific_name">Scientific Name</span><br>
+	  			<span class="characteristics"><strong>Characteristics:</strong> black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray </span>
+	  		</div>
+		  	<%= image_tag ApplicationHelper::LOGO %>
+	  	</div>
+
+	  	<div class="span6 card">
+	  		<div class="left">
+	  			<h4>Spider Name: Common OR Scientific</h4>
+	  			<span class="scientific_name">Scientific Name</span><br>
+	  			<span class="characteristics"><strong>Characteristics:</strong> black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray black, blue, white, gray </span>
+	  		</div>
+		  	<%= image_tag ApplicationHelper::LOGO %>
+	  	</div>
+
+  	</div>
+
+  </div>
+</div>

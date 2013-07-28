@@ -9,7 +9,7 @@
       	spider.settings.init();
       },
       toggleElement: function(element_class){
-      	$("."+element_class).slideToggle(250);
+      	$(element_class).slideToggle(250);
       }
     };
     global.spider = spider;

@@ -1,6 +1,21 @@
 <%= link_to "Spider ID", root_path, :class => 'brand' %>
 <ul class="nav pull-right">
-  <%= image_tag ApplicationHelper::LOGO, :class => 'logo' %>
+  <div class="dropdown">
+    <div class="btn-group">
+      <button class="btn btn-default btn-small dropdown-toggle" type="button" data-toggle="dropdown">
+        <%= image_tag ApplicationHelper::LOGO, :class => 'logo' %>
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="javascript:spider.toggleElement('#how_to_search');">How to use?</a></li>
+      </ul>
+    </div>
+<!--
+    <a class="dropdown-toggle" data-toggle="dropdown" href="#"><%= image_tag ApplicationHelper::LOGO, :class => 'logo' %></a>
+    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+      
+    </ul>
+-->
+  </div>
 <%
 =begin %>
   <% if user_signed_in? %>
