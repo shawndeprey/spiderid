@@ -30,4 +30,6 @@ Spiderid::Application.configure do
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = true
+
+  #Tire.configure { logger 'elasticsearch.log', :level => 'debug' }
 end

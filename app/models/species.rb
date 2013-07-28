@@ -101,12 +101,19 @@ class Species < ActiveRecord::Base
 
   def self.search(term, page)
     return [] if term.blank?
-    tire.search page: page, per_page: 20 do
+    s = Tire.search 'species' do
       query do
         match [:characteristics, :description, :common_name, :scientific_name, :genera_name, :family_name,
           :other_names, :overview, :locations_found], term
       end
     end
+    return s.results
+    #tire.search page: page, per_page: 20 do
+    #  query do
+    #    match [:characteristics, :description, :common_name, :scientific_name, :genera_name, :family_name,
+    #      :other_names, :overview, :locations_found], term
+    #  end
+    #end
   end
 
 end
