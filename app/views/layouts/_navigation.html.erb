@@ -6,7 +6,30 @@
         <%= image_tag ApplicationHelper::LOGO, :class => 'logo' %>
       </button>
       <ul class="dropdown-menu">
-        <li><a href="javascript:spider.toggleElement('#how_to_search');">How to use?</a></li>
+        <% if @how_to_search %>
+          <li><a href="javascript:spider.toggleElement('#how_to_search');">How to use?</a></li>
+        <% else %>
+          <li><a href="/">Search</a></li>
+        <% end %>
+        <li class="divider"></li>
+        <% if user_signed_in? %>
+          <li>
+          <%= link_to('Logout', destroy_user_session_path, :method=>'delete') %>
+          </li>
+        <% else %>
+          <li>
+          <%= link_to('Login', new_user_session_path)  %>
+          </li>
+        <% end %>
+        <% if user_signed_in? %>
+          <li>
+          <%= link_to('Edit account', edit_user_registration_path) %>
+          </li>
+        <% else %>
+          <li>
+          <%= link_to('Sign up', new_user_registration_path)  %>
+          </li>
+        <% end %>
       </ul>
     </div>
 <!--
@@ -16,26 +39,5 @@
     </ul>
 -->
   </div>
-<%
-=begin %>
-  <% if user_signed_in? %>
-    <li>
-    <%= link_to('Logout', destroy_user_session_path, :method=>'delete') %>
-    </li>
-  <% else %>
-    <li>
-    <%= link_to('Login', new_user_session_path)  %>
-    </li>
-  <% end %>
-  <% if user_signed_in? %>
-    <li>
-    <%= link_to('Edit account', edit_user_registration_path) %>
-    </li>
-  <% else %>
-    <li>
-    <%= link_to('Sign up', new_user_registration_path)  %>
-    </li>
-  <% end %>
-<%
-=end %>
+
 </ul>

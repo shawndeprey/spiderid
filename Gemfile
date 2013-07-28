@@ -30,6 +30,9 @@ gem 'sinatra', '~> 1.4.3', :require => nil # if you require 'sinatra' you get th
 gem 'bootstrap-sass', '~> 2.3.2.1'
 gem 'simple_form', '>= 3.0.0.rc'
 
+# User Auth
+gem 'devise', '~> 3.0.0'
+
 # Gems used only for assets and not required in production environments by default.
 group :assets do
   gem 'sass-rails', '~> 4.0.0'

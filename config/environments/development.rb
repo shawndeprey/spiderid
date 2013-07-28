@@ -31,5 +31,7 @@ Spiderid::Application.configure do
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = true
 
+  config.action_mailer.default_url_options = { :host => '69.69.69.69:3000' }
+
   #Tire.configure { logger 'elasticsearch.log', :level => 'debug' }
 end

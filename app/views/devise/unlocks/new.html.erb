@@ -1,0 +1,22 @@
+<div class="row" id="search">
+  <div class="span6 offset3">
+    <h2>Resend unlock instructions</h2>
+
+    <%= simple_form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => { :method => :post }) do |f| %>
+    	<%= f.error_notification %>
+  		<%= f.full_error :unlock_token %>
+	    <table class="form_table">
+			  <tr>
+			    <td colspan="2"><%= f.input :email, :required => true, :autofocus => true %></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2"><%= f.button :submit, "Resend unlock instructions" %></td>
+			  </tr>
+			  <tr>
+			  	<td colspan="2"><%= render "devise/shared/links" %></td>
+			  </tr>
+			</table>
+		<% end %>
+		
+  </div>
+</div>

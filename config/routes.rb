@@ -12,5 +12,6 @@ Spiderid::Application.routes.draw do
   # constraints admin_constraint do
     mount Sidekiq::Web => '/admin/sidekiq'
   # end
+  devise_for :users
   root 'default#index'
 end
