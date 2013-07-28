@@ -3,6 +3,8 @@ body { padding-top: 60px; }
 @import "bootstrap-responsive";
 
 body.v1 { 
+	abbr[title] { border-width: 0px; }
+
 	header.navbar {
 		div.dropdown {
 			button.btn {
@@ -78,6 +80,11 @@ body.v1 {
 
 				}
 			}
+		}
+
+		table.form_table {
+			width: 100%;
+			input[type="text"], input[type="email"], input[type="password"] { margin-bottom: 0px; }
 		}
 
 	}
