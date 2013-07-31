@@ -1,9 +1,9 @@
 default: &default
   address:              smtp.mandrillapp.com
   port:                 587
-  domain:               herokuapp.com
+  #domain:               spiderid.co
   user_name:            app16876859@heroku.com
-  password:             mt-3Dm2y9Mrpm-LUVQvJDw
+  password:             Aq1yHCreRD8JetUvA3RAZw
   authentication:       login
   enable_starttls_auto: true
 
