@@ -83,7 +83,7 @@ Spiderid::Application.configure do
 
   #config.assets.initialize_on_precompile = false
 
-  config.action_mailer.default_url_options = { :host => 'spiderid.heroku.com' }
+  config.action_mailer.default_url_options = { :host => 'smtp.mandrillapp.com' }
 
 =begin
   config.paperclip_defaults = {
